@@ -108,3 +108,12 @@ s
 
 post_save.connect(save_pickup_log, sender=Teacher)
 pre_delete.connect(save_pickup_log, sender=Teacher)
+
+class Log(models.Model):
+    id = models.AutoField(primary_key=True)
+    timestamp = models.DateTimeField(auto_now_add=False, default=datetime.datetime.utcnow)
+    user = models.ForeignKey(User, null=True, related_name='log_user')
+    user_type = models.CharField(max_length=100)
+    action = models.IntegerField()
+    entry_table = models.CharField(max_length=100)
+    model_id = models.IntegerField(null=True)
