@@ -5,7 +5,7 @@ from attendance.models import Class, Department
 from subject.constants import TEACHER_USER_ROLE
 from django.db.models.signals import post_save, pre_delete
 from attendance.models import AttendanceModel
-
+import datetime
 
 # Create your models here.
 
@@ -21,7 +21,6 @@ class BaseUserModel(AttendanceModel):
     notification_token = models.CharField(
         max_length=300, blank=True, null=True, default="")
     app_version = models.CharField(max_length=10, blank=True, null=True)
-    # user specific key:value pair, Ex {days_count:3}
     user_settings = models.CharField(
         max_length=500, blank=True, null=True, verbose_name="User Configuration")
     buffer_days = models.IntegerField(default=45)
@@ -32,9 +31,9 @@ class BaseUserModel(AttendanceModel):
         abstract = True
 
 class Teacher(BaseUserModel):
-    user = models.OneToOneField(User, related_name="teacher")
+    user = models.OneToOneField(User, on_delete=models.PROTECT, related_name="teacher")
     role = models.IntegerField(choices=TEACHER_USER_ROLE, default=1)
-    class_assigned = models.ForeignKey(Class, default=None, null=True)
+    class_assigned = models.ForeignKey(Class, on_delete=models.PROTECT, default=None, null=True)
     is_active = models.BooleanField(default=True)
     priority = models.IntegerField(default=0)
     start_time = models.TimeField(null=True, blank=True)
@@ -46,8 +45,6 @@ class Teacher(BaseUserModel):
     def __unicode__(self):
         return "%s" % self.name_en
 
-post_save.connect(save_pickup_log, sender=Teacher)
-pre_delete.connect(save_pickup_log, sender=Teacher)
 
 class HeadofDepartment(BaseUserModel):
     USER = 1
@@ -61,23 +58,19 @@ class HeadofDepartment(BaseUserModel):
         (DEMO, "DEMO")
     )
 
-    user = models.OneToOneField(User, related_name="head_of_department")
+    user = models.OneToOneField(User, on_delete=models.PROTECT, related_name="head_of_department")
     role = models.IntegerField(choices=HOD_USER_ROLE, default=1)
-    department = models.ForeignKey(Department, default=None, null=True)
+    department = models.ForeignKey(Department, on_delete=models.PROTECT, default=None, null=True)
     is_active = models.BooleanField(default=True)
     priority = models.IntegerField(default=0)
     start_time = models.TimeField(null=True, blank=True)
     end_time = models.TimeField(null=True, blank=True)
-s
+    
     def __user__(self):
         return "%s" % self.user.username
     
     def __unicode__(self):
         return "%s" % self.name_en
-
-post_save.connect(save_pickup_log, sender=Teacher)
-pre_delete.connect(save_pickup_log, sender=Teacher)
-
 
 
 class ClassCoordinator(BaseUserModel):
@@ -92,27 +85,24 @@ class ClassCoordinator(BaseUserModel):
         (DEMO, "DEMO")
     )
 
-    user = models.OneToOneField(User, related_name="class_coordinator")
+    user = models.OneToOneField(User, on_delete=models.PROTECT, related_name="class_coordinator")
     role = models.IntegerField(choices=COORDINATOR_USER_ROLE, default=1)
-    assigned_class = models.ForeignKey(Class, related_name="coordinator", default=None, null=True)
+    assigned_class = models.ForeignKey(Class, on_delete=models.PROTECT, related_name="coordinator", default=None, null=True)
     is_active = models.BooleanField(default=True)
     priority = models.IntegerField(default=0)
     start_time = models.TimeField(null=True, blank=True)
     end_time = models.TimeField(null=True, blank=True)
-s
+
     def __user__(self):
         return "%s" % self.user.username
     
     def __unicode__(self):
         return "%s" % self.name_en
 
-post_save.connect(save_pickup_log, sender=Teacher)
-pre_delete.connect(save_pickup_log, sender=Teacher)
-
 class Log(models.Model):
     id = models.AutoField(primary_key=True)
     timestamp = models.DateTimeField(auto_now_add=False, default=datetime.datetime.utcnow)
-    user = models.ForeignKey(User, null=True, related_name='log_user')
+    user = models.ForeignKey(User, on_delete=models.PROTECT, null=True, related_name='log_user')
     user_type = models.CharField(max_length=100)
     action = models.IntegerField()
     entry_table = models.CharField(max_length=100)

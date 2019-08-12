@@ -25,8 +25,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME' : 'local',
+        'USER' : 'root',
+        'PASSWORD' : 'root',
+        'HOST' : 'localhost',
+        'PORT' : '3306',
     }
 }
 
@@ -47,14 +52,20 @@ CURRENT_DOMAIN = 'localhost'
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+	#'django.contrib.sites',
+	'django.contrib.sitemaps',
+	'django.contrib.admindocs',
+    'users',
+    'subject',
+    'attendance',
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -86,6 +97,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'attendence_system.wsgi.application'
 
+
+#Email Settings
+
+EMAIL_USE_TLS = True
+
+EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_HOST_USER = 'avibilasgupta@gmail.com'
+EMAIL_HOST_PASSWORD = 'zgay rucr gghs kast'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
