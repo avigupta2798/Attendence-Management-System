@@ -10,7 +10,21 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
+
+import site, sys
 import os
+
+
+# Database
+# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,6 +40,9 @@ SECRET_KEY = 'h=4&&+ex3#bh52q2^6dsa@k=6#)iz8$qh6d%%!tv&9gvcl=_+2'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+
+CURRENT_DOMAIN = 'localhost'
 
 
 # Application definition
@@ -68,17 +85,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'attendence_system.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 
 # Password validation
