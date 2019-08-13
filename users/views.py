@@ -11,7 +11,7 @@ from users.models import Teacher, Log
 from django.contrib import auth
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseBadRequest, HttpResponseNotAllowed, \
     HttpResponseForbidden
-from django.db.models import get_model
+from django.apps import apps
 from tastypie.models import ApiKey, create_api_key
 import datetime
 from django.contrib.auth import REDIRECT_FIELD_NAME
@@ -40,7 +40,7 @@ def get_auth(request, app_name='users', model_name=None):
         api_key = None
         model_user_obj = None
         if user:
-            model_obj = get_model(app_name, model_name)
+            model_obj = apps.get_model(app_name, model_name)
             model_user_obj = model_obj.objects.filter(user=user, user__is_active=True)
             try:
                 api_key = ApiKey.objects.get(user=user)

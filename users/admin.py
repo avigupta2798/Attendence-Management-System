@@ -15,6 +15,21 @@ class TeacherAdmin(admin.ModelAdmin):
                     'phone', 'class_assigned', 'user_settings', 'is_active','edit_buffer_days')
     list_editable = ['is_active','edit_buffer_days']  
 
+class HoDAdmin(admin.ModelAdmin):
+    search_fields = ['name', 'phone', 'department__department_name',]
+    list_filter = ['department__department_name',]
+    list_display = ('id', '__user__', 'name',
+                    'phone', 'department', 'user_settings', 'is_active','edit_buffer_days')
+    list_editable = ['is_active','edit_buffer_days']
+
+class ClassCoordinatorAdmin(admin.ModelAdmin):
+    search_fields = ['name', 'phone', 'assigned_class__class_name', 'assigned_class__department__department_name',]
+    list_filter = ['assigned_class__class_name', ]
+    list_display = ('id', '__user__', 'name', 'phone', 'assigned_class', 'user_settings', 'is_active', 'edit_buffer_days')
+    list_editable = ['is_active', 'edit_buffer_days']
+
 
 user_admin = UsersAdmin(name="user_admin")
 user_admin.register(Teacher, TeacherAdmin)
+user_admin.register(HeadofDepartment, HoDAdmin)
+user_admin.register(ClassCoordinator, ClassCoordinatorAdmin)
