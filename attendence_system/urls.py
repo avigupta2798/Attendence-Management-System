@@ -15,7 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls import include, url
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.views.generic import TemplateView
+
+import users.urls
+import attendance.urls
+import subject.urls
+
+admin.autodiscover()
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-]
+                path('admin/', admin.site.urls),
+                #path(r'^attendance/', include(attendance.urls)),
+                path(r'^users/', include(users.urls)),
+                #path(r'^subjects/', include(subject.urls)),
+            ]
