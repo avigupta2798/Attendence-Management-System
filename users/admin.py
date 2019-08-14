@@ -30,6 +30,6 @@ class ClassCoordinatorAdmin(admin.ModelAdmin):
 
 
 user_admin = UsersAdmin(name="user_admin")
-user_admin.register(Teacher, TeacherAdmin)
-user_admin.register(HeadofDepartment, HoDAdmin)
-user_admin.register(ClassCoordinator, ClassCoordinatorAdmin)
+admin.site.register(Teacher, TeacherAdmin)
+admin.site.register(HeadofDepartment, HoDAdmin)
+admin.site.register(ClassCoordinator, ClassCoordinatorAdmin)

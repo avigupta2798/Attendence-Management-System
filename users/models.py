@@ -13,7 +13,7 @@ import datetime
 def user_new_unicode(self):
     return '%s - %s (%s)' % (self.pk, self.get_username(), self.get_full_name())
 
-User.__unicode__ = user_new_unicode
+User.__str__ = user_new_unicode
 
 class BaseUserModel(AttendanceModel):
     name = models.CharField(max_length=100)
@@ -42,8 +42,8 @@ class Teacher(BaseUserModel):
     def __user__(self):
         return "%s" % self.user.username
     
-    def __unicode__(self):
-        return "%s" % self.name_en
+    def __str__(self):
+        return "%s" % self.name
 
 
 class HeadofDepartment(BaseUserModel):
@@ -69,8 +69,8 @@ class HeadofDepartment(BaseUserModel):
     def __user__(self):
         return "%s" % self.user.username
     
-    def __unicode__(self):
-        return "%s" % self.name_en
+    def __str__(self):
+        return "%s" % self.name
 
 
 class ClassCoordinator(BaseUserModel):
@@ -96,8 +96,8 @@ class ClassCoordinator(BaseUserModel):
     def __user__(self):
         return "%s" % self.user.username
     
-    def __unicode__(self):
-        return "%s" % self.name_en
+    def __str__(self):
+        return "%s" % self.name
 
 class Log(models.Model):
     id = models.AutoField(primary_key=True)

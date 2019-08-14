@@ -23,20 +23,20 @@ class Semester(AttendanceModel):
     semester_name = models.CharField(max_length=50)
     is_visible = models.BooleanField(default=True)
 
-    def __unicode__(self):
-        return self.country_name
+    def __str__(self):
+        return "%s (%s)" % (self.semester_name, self.id)
 
     class Meta:
-        unique_together = ("semester_name",)
+        unique_together = ("semester_name", "id")
     
 class Department(AttendanceModel):
     id = models.AutoField(primary_key=True)
     department_name = models.CharField(max_length=50)
-    semester = models.ForeignKey(Semester, on_delete=models.PROTECT)
+    semester = models.ForeignKey(Semester, on_delete=models.PROTECT, default=None, null=True)
     is_visible = models.BooleanField(default=True)
 
-    def __unicode__(self):
-        return self.state_name_en
+    def __str__(self):
+        return "%s (%s)" % (self.department_name, self.semester.semester_name)
 
     class Meta:
         unique_together = ("department_name", "semester")
@@ -45,12 +45,12 @@ class Class(AttendanceModel):
 
     id = models.AutoField(primary_key=True)
     class_name = models.CharField(max_length=50)
-    department = models.ForeignKey(Department, on_delete=models.PROTECT)
+    department = models.ForeignKey(Department, on_delete=models.PROTECT, related_name='department_class')
     semester = models.ForeignKey(Semester, on_delete=models.PROTECT, related_name='semester_class', null=True, blank=True, default=None)
     is_visible = models.BooleanField(default=True)
     notation = models.CharField(max_length=10, null=True, blank=True, default=None)
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s (%s)" % (self.class_name, self.department.department_name)
 
     class Meta:
@@ -69,7 +69,7 @@ class Student(AttendanceModel):
     is_visible = models.BooleanField(default=True)
     onboarding_incentive_date=models.DateField(default=None,null=True,auto_now=False)
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s (%s)" % (self.name, self.student_assigned_class.class_name)
 
     class Meta:

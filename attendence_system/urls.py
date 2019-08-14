@@ -29,6 +29,6 @@ admin.autodiscover()
 urlpatterns = [
                 path('admin/', admin.site.urls),
                 #path(r'^attendance/', include(attendance.urls)),
-                path(r'^users/', include(users.urls)),
+                #path('users/', include(users.urls)),
                 #path(r'^subjects/', include(subject.urls)),
             ]
