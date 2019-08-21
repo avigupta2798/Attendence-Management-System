@@ -17,45 +17,39 @@ class AttendanceModel(models.Model):
 
     class Meta:
         abstract = True
-
-class Semester(AttendanceModel):
-    id = models.AutoField(primary_key=True)
-    semester_name = models.CharField(max_length=50)
-    is_visible = models.BooleanField(default=True)
-
-    def __str__(self):
-        return "%s (%s)" % (self.semester_name, self.id)
-
-    class Meta:
-        unique_together = ("semester_name", "id")
     
 class Department(AttendanceModel):
     id = models.AutoField(primary_key=True)
     department_name = models.CharField(max_length=50)
-    semester = models.ForeignKey(Semester, on_delete=models.PROTECT, default=None, null=True)
     is_visible = models.BooleanField(default=True)
 
     def __str__(self):
-        return "%s (%s)" % (self.department_name, self.semester.semester_name)
+        return "%s" % (self.department_name)
 
     class Meta:
-        unique_together = ("department_name", "semester")
+        unique_together = ("department_name", "id")
 
 class Class(AttendanceModel):
+    I = 1
+    II = 2
+
+    semester_choice = (
+        (I, "I"),
+        (II, "II")
+    )
 
     id = models.AutoField(primary_key=True)
     class_name = models.CharField(max_length=50)
+    semester = models.IntegerField(choices=semester_choice, default=1)
     department = models.ForeignKey(Department, on_delete=models.PROTECT, related_name='department_class')
-    semester = models.ForeignKey(Semester, on_delete=models.PROTECT, related_name='semester_class', null=True, blank=True, default=None)
     is_visible = models.BooleanField(default=True)
     notation = models.CharField(max_length=10, null=True, blank=True, default=None)
 
     def __str__(self):
-        return "%s (%s)" % (self.class_name, self.department.department_name)
+        return "%s (%s)" % (self.class_name, self.semester)
 
     class Meta:
         unique_together = ("class_name", "department")
-
 
 class Student(AttendanceModel):
     id = models.AutoField(primary_key=True)

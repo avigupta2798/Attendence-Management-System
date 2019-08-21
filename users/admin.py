@@ -9,7 +9,7 @@ class UsersAdmin(AdminSite):
         return request.user.is_active
 
 class TeacherAdmin(admin.ModelAdmin):
-    search_fields = ['name', 'phone', 'class_assigned__class_name', 'class_assigned__department__department_name', 'class_assigned__semester__semester_name',]
+    search_fields = ['name', 'phone', 'class_assigned__class_name', 'class_assigned__department__department_name',]
     list_filter = ['class_assigned__class_name', 'class_assigned__department__department_name']
     list_display = ('id', '__user__', 'name',
                     'phone', 'class_assigned', 'user_settings', 'is_active','edit_buffer_days')

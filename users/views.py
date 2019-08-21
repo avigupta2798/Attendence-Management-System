@@ -90,8 +90,7 @@ def teacher_login(request):
                 'edit_buffer_days': user[0].edit_buffer_days,
                 # Last Login Time
                 'timestamp': str(get_latest_timestamp().strftime('%Y-%m-%d %H:%M:%S.%f')),
-                'role': user[0].role,
-                'semester_id':user[0].class_assigned.department.semester.id
+                'role': user[0].role
             }
         ))
     else:
@@ -130,8 +129,7 @@ def hod_login(request):
                 'edit_buffer_days': user[0].edit_buffer_days,
                 # Last Login Time
                 'timestamp': str(get_latest_timestamp().strftime('%Y-%m-%d %H:%M:%S.%f')),
-                'role': user[0].role,
-                'semester_id':user[0].department.semester.id
+                'role': user[0].role
             }
         ))
     else:
@@ -170,7 +168,7 @@ def class_coordinator_login(request):
                 # Last Login Time
                 'timestamp': str(get_latest_timestamp().strftime('%Y-%m-%d %H:%M:%S.%f')),
                 'role': user[0].role,
-                'semester_id':user[0].class_assigned.department.semester.id
+                #'semester_id':user[0].class_assigned.department.semester.id
             }
         ))
     else:
